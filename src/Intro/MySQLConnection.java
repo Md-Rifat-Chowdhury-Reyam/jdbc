@@ -1,27 +1,41 @@
 package Intro;
 
-import java.sql.SQLException;
+import java.sql.*;
 
 public class MySQLConnection {
+
     public static void main(String[] args) {
 
-        String url = " ";
-        String userName = " ";
-        String password =  "  ";
-        String Query = " ";
 
         try {
+           Connection c = DriverManager.getConnection(
+                   "jdbc:mysql://127.0.0.1:3306/login_schema",
+                   "root",
+                   "5400"
+           );
+           Statement stmnt = c.createStatement();
+           ResultSet resultst = stmnt.executeQuery("SELECT * FROM login_schema.users");
 
-        }
-        catch (ClassNotFoundException e)
-        {
-            System.out.println(e.getException());
-        }
-        catch (SQLException e)
-        {
-            System.out.println(e.getMessage());
-        }
+//            String query
+//                    = "INSERT INTO users (userid, username, userpassword) VALUES ('1', 'Rifat', '123')";
+//            int count = stmnt.executeUpdate(query);
 
+           while(resultst.next())
+           {
+               System.out.println(resultst.getString("userid"));
+               System.out.println(resultst.getString("username"));
+               System.out.println(resultst.getString("userpassword"));
+
+           }
+
+
+       }
+       catch (SQLException e)
+       {
+           e.printStackTrace();
+           System.out.println("Error catch : " + e.getMessage());
+
+       }
     }
 
 }
